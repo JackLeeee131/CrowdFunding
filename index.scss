@@ -1,0 +1,117 @@
+$trigger-arrow-size: 8px;
+$content-arrow-box-size: 10px;
+$content-shadow: 0 0 6px #ccc;
+$content-bg-color: #fff;
+
+.dropdown {
+    .dropdown-trigger-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: stretch;
+        cursor: pointer;
+
+        > {
+            :first-of-type {
+                flex-grow: 1;
+            }
+
+            .dropdown-trigger-arrow {
+                flex-grow: 0;
+                flex-shrink: 0;
+                width: $trigger-arrow-size;
+                height: $trigger-arrow-size;
+                margin-left: $trigger-arrow-size;
+                background: transparent
+                    url('../../assets/img/triangle-down.svg') 50% 50% no-repeat;
+            }
+        }
+    }
+}
+
+.dropdown-container {
+    z-index: 9999;
+    overflow: visible !important;
+
+    .dropdown-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: stretch;
+        min-width: 260px;
+        padding: 20px 10px 20px 30px;
+        background-color: var(--dropdown-content-bg-color, $content-bg-color);
+        box-shadow: var(--dropdown-content-shadow, $content-shadow);
+
+        .dropdown-item {
+            display: flex;
+            padding: 10px 0;
+
+            > * {
+                flex-grow: 1;
+            }
+
+            .dropdown-item-checkbox {
+                flex-grow: 0;
+                flex-shrink: 0;
+                margin-left: 20px;
+            }
+        }
+
+        &:before,
+        &:after {
+            content: '';
+            position: absolute;
+            display: block;
+            width: $content-arrow-box-size;
+            height: $content-arrow-box-size;
+            background-color: $content-bg-color;
+            transform: rotate(45deg);
+        }
+
+        // cast the same shadow of the content element, for seamless box-shadow
+        &:before {
+            z-index: -1;
+            box-shadow: var(--dropdown-content-shadow, $content-shadow);
+        }
+
+        // hide the undesired side-effect of the box-shadow showing in the seam between the content and the arrow
+        &:after {
+            z-index: 1;
+        }
+
+        &.dropdown-content-top:before,
+        &.dropdown-content-top:after,
+        &.dropdown-content-bottom:before,
+        &.dropdown-content-bottom:after {
+            left: calc(50% - #{$content-arrow-box-size} * 0.5);
+        }
+
+        &.dropdown-content-left:before,
+        &.dropdown-content-left:after,
+        &.dropdown-content-right:before,
+        &.dropdown-content-right:after {
+            top: calc(50% - #{$content-arrow-box-size} * 0.5);
+        }
+
+        &.dropdown-content-top:before,
+        &.dropdown-content-top:after {
+            bottom: $content-arrow-box-size * -0.5;
+        }
+
+        &.dropdown-content-bottom:before,
+        &.dropdown-content-bottom:after {
+            top: $content-arrow-box-size * -0.5;
+        }
+
+        &.dropdown-content-left:before,
+        &.dropdown-content-left:after {
+            right: $content-arrow-box-size * -0.5;
+        }
+
+        &.dropdown-content-right:before,
+        &.dropdown-content-right:after {
+            left: $content-arrow-box-size * -0.5;
+        }
+    }
+}
